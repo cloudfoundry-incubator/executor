@@ -54,6 +54,7 @@ var (
 	ErrNoPortsAvailable   = errors.New("no ports available")
 	ErrInvalidCertificate = errors.New("cannot parse invalid certificate")
 
+	AlpnProtocols         = []string{"h2,http/1.1"}
 	SupportedCipherSuites = []string{"ECDHE-RSA-AES256-GCM-SHA384", "ECDHE-RSA-AES128-GCM-SHA256"}
 )
 
@@ -462,6 +463,7 @@ func generateListeners(container executor.Container, requireClientCerts bool) ([
 		tlsContext := &envoy_tls.DownstreamTlsContext{
 			RequireClientCertificate: &wrappers.BoolValue{Value: requireClientCerts},
 			CommonTlsContext: &envoy_tls.CommonTlsContext{
+				AlpnProtocols: AlpnProtocols,
 				TlsCertificateSdsSecretConfigs: []*envoy_tls.SdsSecretConfig{
 					{
 						Name: "server-cert-and-key",

@@ -869,6 +869,7 @@ func (l expectedListener) check(listener *envoy_listener.Listener) {
 	Expect(filterChain.TransportSocket.Name).To(Equal(l.name))
 
 	Expect(downstreamTlsContext.RequireClientCertificate.Value).To(Equal(l.requireClientCertificate))
+	Expect(downstreamTlsContext.CommonTlsContext.AlpnProtocols).To(Equal([]string{"h2,http/1.1"}))
 	Expect(downstreamTlsContext.CommonTlsContext.TlsCertificateSdsSecretConfigs).To(ConsistOf(
 		&envoy_tls.SdsSecretConfig{
 			Name: "server-cert-and-key",
